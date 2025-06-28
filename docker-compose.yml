@@ -1,42 +1,44 @@
+version: '3.8'
+
 services:
-  db:
-    image: postgres:12
-    container_name: db_1
+  mongo:
+    image: mongo:7
+    container_name: mongo_1
     ports:
-      - ${POSTGRES_PORT}:5432
+      - "27017:27017"
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    volumes:
+      - ./data/mongo:/data/db
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 5s
-      timeout: 5s
+      timeout: 10s
       retries: 5
+
   api:
     depends_on:
-      db:
+      mongo:
         condition: service_healthy
     build: ./api-server
     image: api_image
     container_name: api_1
     command: bash -c "npm start"
     ports:
-      - 8080:8080
+      - "8080:8080"
     volumes:
       - ./api-server:/data/app
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST}
-      POSTGRES_PORT: ${POSTGRES_PORT}
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      MONGODB_URI: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@mongo:27017/${MONGODB_DATABASE}?authSource=admin
+
   frontend:
     build: ./frontend-react
     image: frontend_image
     container_name: frontend_1
     command: bash -c "npm start"
     ports:
-      - 3000:3000
+      - "3000:3000"
     volumes:
       - ./frontend-react:/data/app
