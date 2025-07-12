@@ -2,7 +2,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 import { setContext } from '@apollo/client/link/context';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:4000/', // your GraphQL server
+  uri: 'https://ubiquitous-spork-v6rr7j9v9rp6fp6wg-4000.app.github.dev/', // your GraphQL server
 });
 
 const authLink = setContext((_, { headers }) => {
