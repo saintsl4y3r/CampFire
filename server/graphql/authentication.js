@@ -27,8 +27,19 @@ export const typeDef = `
       password: String!
     }
 
+    input RegisterInput {
+      username: String!
+      password: String!
+    }
+
+    type RegisterResponse {
+        success: Boolean!
+        message: String!
+    }
+
     extend type Mutation {
         login(input: LoginInput): LoginResponse
+        register(input: RegisterInput): RegisterResponse
     }
 `;
 
@@ -78,6 +89,35 @@ export const resolvers = {
       return {
         success: false,
         message: "Invalid username or password",
+      };
+    },
+
+    register: async (parent, args, context, info) => {
+      var { username, password } = args.input;
+      if (username.length == 0 || password == 0) {
+        return {
+          success: false,
+          message: "Username or password cannot be empty",
+        };
+      }
+
+      var user = await context.db.users.findOne(username);
+      if (user) {
+        return {
+          success: false,
+          message: "Username already exists",
+        };
+      }
+
+      var hashedPassword = await bcrypt.hash(password, 10);
+      var newUser = await context.db.users.insertOne({
+        username,
+        password: hashedPassword,
+        role: "customer",
+      });
+      return {
+        success: true,
+        message: "User registered successfully",
       };
     },
   },

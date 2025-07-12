@@ -259,6 +259,9 @@ const db = {
     findOne: async (username) => {
       return await User.findOne({ username }).lean();
     },
+    insertOne: async (user) => {
+      return await User.insertOne(user);
+    },
   },
 };
 

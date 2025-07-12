@@ -68,10 +68,10 @@ const Login = () => {
                 localStorage.setItem('userRole', role);
                 switch (role) {
                   case 'admin':
-                    navigate('/products');
+                    navigate('/admin/dashboard');
                     break;
                   case 'manager':
-                    navigate('/products');
+                    navigate('/admin/dashboard');
                     break;
                   case 'customer':
                     navigate('/home');
