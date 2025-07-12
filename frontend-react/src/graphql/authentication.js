@@ -11,4 +11,10 @@ export const LOGIN = gql`
       }
     }
   }
+  mutation Register($input: RegisterInput!) {
+    register(input: $input) {
+      success
+      message
+    }
+  }
 `;

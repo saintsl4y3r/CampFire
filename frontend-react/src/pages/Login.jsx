@@ -11,7 +11,7 @@ import {
   Alert 
 } from '@mui/material';
 import { LOGIN } from '../graphql/authentication';
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -69,29 +69,18 @@ const Login = () => {
 
               if (role) {
                 localStorage.setItem('userRole', role);
-                
-                // Handle admin login specifically
-                if (isAdminLogin) {
-                  if (role === 'admin' || role === 'manager') {
-                    navigate('/admin');
-                  } else {
-                    setError('Access denied. Admin privileges required.');
-                  }
-                } else {
-                  // Regular user login
-                  switch (role) {
-                    case 'admin':
-                      navigate('/admin');
-                      break;
-                    case 'manager':
-                      navigate('/admin');
-                      break;
-                    case 'customer':
-                      navigate('/home');
-                      break;
-                    default:
-                      setError('Vai trò không hợp lệ');
-                  }
+                switch (role) {
+                  case 'admin':
+                    navigate('/admin/dashboard');
+                    break;
+                  case 'manager':
+                    navigate('/admin/dashboard');
+                    break;
+                  case 'customer':
+                    navigate('/home');
+                    break;
+                  default:
+                    setError('Vai trò không hợp lệ');
                 }
               } else {
                 console.error('Role not found in JWT payload');
