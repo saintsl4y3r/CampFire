@@ -33,10 +33,10 @@ export const CREATE_CATEGORY = gql`
 
 export const GET_PRODUCTS_BY_CATEGORY = gql`
   query GetProductsByCategory($categoryId: ID!, $first: Int, $offset: Int) {
-    products(
+    productsByCategory(
+      categoryId: $categoryId
       first: $first
       offset: $offset
-      condition: { categoryId: $categoryId }
     ) {
       nodes {
         _id
