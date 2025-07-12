@@ -11,7 +11,7 @@ import {
   Alert 
 } from '@mui/material';
 import { LOGIN } from '../graphql/authentication';
-import { jwtDecode } from "jwt-decode";
+import jwtDecode from "jwt-decode";
 
 const Login = () => {
   const navigate = useNavigate();
