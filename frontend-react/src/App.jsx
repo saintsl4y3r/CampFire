@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import './App.css';
 
 import DashboardLayout from './pages/DashboardLayout';
@@ -67,42 +68,44 @@ const theme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <Routes>
-          {/* Public routes */}
-          <Route path="/start" element={<StartPage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/" element={<Login />} />
-          {/* Routes with DashboardLayout */}
-          <Route element={<DashboardLayout />}>
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/equipment/:id" element={<EquipmentDetail />} />
-            <Route path="/booking/:equipmentId" element={<BookingForm />} />
-            <Route path="/payment/:bookingId" element={<PaymentForm />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/my-rentals" element={<MyRentals />} />
-            <Route path="/order-history" element={<OrderHistory />} />
-            <Route path="/products/:productId/review" element={<ReviewList />} />
-            <Route path="/products/:productId/review/new" element={<ReviewForm />} />
+    <GoogleOAuthProvider clientId='1002324308191-1e5r19msbehhnuo7sjrij0dpcmboc19c.apps.googleusercontent.com'>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Router>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/start" element={<StartPage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route path="/" element={<Login />} />
+            {/* Routes with DashboardLayout */}
+            <Route element={<DashboardLayout />}>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/product/:id" element={<ProductDetail />} />
+              <Route path="/equipment/:id" element={<EquipmentDetail />} />
+              <Route path="/booking/:equipmentId" element={<BookingForm />} />
+              <Route path="/payment/:bookingId" element={<PaymentForm />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/my-rentals" element={<MyRentals />} />
+              <Route path="/order-history" element={<OrderHistory />} />
+              <Route path="/products/:productId/review" element={<ReviewList />} />
+              <Route path="/products/:productId/review/new" element={<ReviewForm />} />
 
-            {/* Admin routes */}
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="/admin/upload-image" element={<AdminProductImageUpload />} />
-            <Route path="/admin/reviews/:productId" element={<ReviewManagement />}/>
-          </Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+              {/* Admin routes */}
+              <Route path="/admin/dashboard" element={<AdminDashboard />} />
+              <Route path="/admin/upload-image" element={<AdminProductImageUpload />} />
+              <Route path="/admin/reviews/:productId" element={<ReviewManagement />}/>
+            </Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </GoogleOAuthProvider>
   );
 }
 

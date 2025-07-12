@@ -13,6 +13,8 @@ import {
 import { LOGIN } from '../graphql/authentication';
 import jwtDecode from "jwt-decode";
 
+import { GoogleLogin } from '@react-oauth/google';
+
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -157,6 +159,61 @@ const Login = () => {
             </Button>
             {!isAdminLogin && (
               <Box textAlign="center">
+                <Box sx={{ mt: 2, mb: 2 }}>
+                  <Typography variant="body2" color="textSecondary" gutterBottom>
+                    Hoặc đăng nhập với
+                  </Typography>
+                      <GoogleLogin
+                      onSuccess={credentialResponse => {
+                        const token = credentialResponse.credential;
+                        console.log('Google token received:', token);
+                        
+                        // Gửi token này về server
+                        fetch('http://localhost:4000/api/auth/google', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ token })
+                        })
+                        .then(res => {
+                          if (!res.ok) {
+                            throw new Error('Network response was not ok');
+                          }
+                          return res.json();
+                        })
+                        .then(data => {
+                          console.log('Server response:', data);
+                          
+                          // xử lý kết quả từ server
+                          if (data.status === 'new_user') {
+                            // chuyển hướng đến trang đăng ký thêm thông tin
+                            console.log('New user detected, redirecting to registration');
+                            navigate('/register', { 
+                              state: { 
+                                googleUser: data.user,
+                                isGoogleSignup: true 
+                              } 
+                            });
+                          } else if (data.status === 'ok') {
+                            // lưu JWT, redirect user vào hệ thống
+                            console.log('Existing user, logging in');
+                            localStorage.setItem('jwt', data.jwt);
+                            localStorage.setItem('userRole', data.user.role || 'customer');
+                            navigate('/home');
+                          } else {
+                            setError(data.message || 'Đăng nhập Google thất bại');
+                          }
+                        })
+                        .catch(error => {
+                          console.error('Google login error:', error);
+                          setError('Không thể kết nối đến server');
+                        });
+                      }}
+                      onError={() => {
+                        console.log('Login Failed');
+                        setError('Đăng nhập Google thất bại');
+                      }}
+                    />
+                </Box>
                 <Link to="/reset-password" style={{ textDecoration: 'none' }}>
                   <Typography variant="body2" color="primary" gutterBottom>
                     Quên mật khẩu?
