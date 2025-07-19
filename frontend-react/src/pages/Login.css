@@ -1,0 +1,45 @@
+/* Facebook Login Button Styles */
+.facebook-login-container {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* Override react-facebook-login default styles */
+.facebook-login-button {
+  width: 100% !important;
+  padding: 12px 16px !important;
+  background-color: #1877f2 !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background-color 0.3s !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
+}
+
+.facebook-login-button:hover {
+  background-color: #166fe5 !important;
+}
+
+.facebook-login-button:active {
+  background-color: #1461d0 !important;
+}
+
+/* Facebook icon trong button */
+.facebook-login-button i {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .facebook-login-button {
+    font-size: 14px !important;
+    padding: 10px 14px !important;
+  }
+}
