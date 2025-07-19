@@ -92,26 +92,6 @@ export const resolvers = {
             return manufacturer ? manufacturer.name : null;
         }
     },
-    Product: {
-        categoryName: async (parent, args, context) => {
-            const category = await context.db.categories.findById(parent.categoryId);
-            return category ? category.name : null;
-        },
-        manufacturerName: async (parent, args, context) => {
-            const manufacturer = await context.db.manufacturers.findById(parent.manufacturerId);
-            return manufacturer ? manufacturer.name : null;
-        }
-    },
-    Product: {
-        categoryName: async (parent, args, context) => {
-            const category = await context.db.categories.findById(parent.categoryId);
-            return category ? category.name : null;
-        },
-        manufacturerName: async (parent, args, context) => {
-            const manufacturer = await context.db.manufacturers.findById(parent.manufacturerId);
-            return manufacturer ? manufacturer.name : null;
-        }
-    },
     Mutation: {
         createProduct: (parent, args, context, info) => {
             return context.db.products.create(args.input);

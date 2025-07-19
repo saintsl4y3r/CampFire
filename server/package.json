@@ -4,7 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "keywords": [],
   "author": "",
@@ -24,5 +25,9 @@
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.1",
     "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "graphql-request": "^7.2.0",
+    "jest": "^30.0.4"
   }
 }
