@@ -6,6 +6,7 @@
     "@apollo/client": "^3.13.8",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@google/genai": "^1.10.0",
     "@mui/icons-material": "^6.4.12",
     "@mui/material": "^6.2.1",
     "@mui/x-date-pickers": "^7.23.3",
